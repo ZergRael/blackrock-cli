@@ -1,20 +1,66 @@
 tracked_casts:
-#  - 17540: true # Greater Stoneshield (i 13455) = SPELL_AURA_APPLIED & SPELL_CAST_SUCCESS & SPELL_AURA_REMOVED
-#  - 11405: true # Elixir of the Giants (i 9206) = SPELL_AURA_APPLIED & SPELL_CAST_SUCCESS & SPELL_AURA_REMOVED
-#  - 17538: true # Elixir of the Mongoose (i 13452) = SPELL_AURA_APPLIED & SPELL_CAST_SUCCESS & SPELL_AURA_REMOVED
-#  - 11334: true # Elixir of Greater Agility (i 9187) = SPELL_AURA_APPLIED & SPELL_CAST_SUCCESS & SPELL_AURA_REMOVED
-#  - 17038: true # Winterfall Firewater (i 12820) = SPELL_AURA_APPLIED & SPELL_CAST_SUCCESS & SPELL_AURA_REMOVED
-#  - 26276: true # Elixir of Greater Firepower (i 21546) = SPELL_AURA_APPLIED & SPELL_CAST_SUCCESS & SPELL_AURA_REMOVED
-#  - 11474: true # Elixir of Shadow Power (i 9264) = SPELL_AURA_APPLIED & SPELL_CAST_SUCCESS & SPELL_AURA_REMOVED
-#  - 17539: true # Greater Arcane Elixir (i 13454) = SPELL_AURA_APPLIED & SPELL_CAST_SUCCESS & SPELL_AURA_REMOVED
-#  - 11390: true # Arcane Elixir (i 9155) = SPELL_AURA_APPLIED & SPELL_CAST_SUCCESS & SPELL_AURA_REMOVED
-#  - 25122: true # Brilliant Wizard Oil (i 20749) = SPELL_CAST_START & SPELL_CAST_SUCCESS
-#  - 24363: true # Mageblood potion (i 20007) = DOES NOT WORK
-#  - 25123: true # Brilliant Mana Oil (i 20748) = SPELL_CAST_START & SPELL_CAST_SUCCESS
-#  - 17548: true # Greater Shadow Protection Potion (i 13459) = SPELL_AURA_APPLIED & SPELL_CAST_SUCCESS & SPELL_AURA_REMOVED & SPELL_ABSORBED
-#  - 18610: true # Heavy Runecloth Bandage (i 14530) = SPELL_AURA_APPLIED & SPELL_CAST_SUCCESS & SPELL_AURA_REMOVED & SPELL_PERIODIC_HEAL & SPELL_MISSED
-#  - 17544: true # Greater Frost Protection Potion (i 13456) = SPELL_AURA_APPLIED & SPELL_CAST_SUCCESS & SPELL_AURA_REMOVED & SPELL_ABSORBED
-#  - 24382: true # Spirit of Zanza (i 20079) = SPELL_AURA_APPLIED & SPELL_CAST_SUCCESS & SPELL_AURA_REMOVED
+  - 17540: true # Greater Stoneshield (i 13455) = SPELL_AURA_APPLIED & SPELL_CAST_SUCCESS & SPELL_AURA_REMOVED
+  - 11405: true # Elixir of the Giants (i 9206) = SPELL_AURA_APPLIED & SPELL_CAST_SUCCESS & SPELL_AURA_REMOVED
+  - 17538: true # Elixir of the Mongoose (i 13452) = SPELL_AURA_APPLIED & SPELL_CAST_SUCCESS & SPELL_AURA_REMOVED
+  - 11334: true # Elixir of Greater Agility (i 9187) = SPELL_AURA_APPLIED & SPELL_CAST_SUCCESS & SPELL_AURA_REMOVED
+  - 17038: true # Winterfall Firewater (i 12820) = SPELL_AURA_APPLIED & SPELL_CAST_SUCCESS & SPELL_AURA_REMOVED
+  - 26276: true # Elixir of Greater Firepower (i 21546) = SPELL_AURA_APPLIED & SPELL_CAST_SUCCESS & SPELL_AURA_REMOVED
+  - 11474: true # Elixir of Shadow Power (i 9264) = SPELL_AURA_APPLIED & SPELL_CAST_SUCCESS & SPELL_AURA_REMOVED
+  - 17539: true # Greater Arcane Elixir (i 13454) = SPELL_AURA_APPLIED & SPELL_CAST_SUCCESS & SPELL_AURA_REMOVED
+  - 11390: true # Arcane Elixir (i 9155) = SPELL_AURA_APPLIED & SPELL_CAST_SUCCESS & SPELL_AURA_REMOVED
+  - 25122: true # Brilliant Wizard Oil (i 20749) = SPELL_CAST_START & SPELL_CAST_SUCCESS
+  - 24363: true # Mageblood potion (i 20007) = DOES NOT WORK
+  - 25123: true # Brilliant Mana Oil (i 20748) = SPELL_CAST_START & SPELL_CAST_SUCCESS
+  - 17548: true # Greater Shadow Protection Potion (i 13459) = SPELL_AURA_APPLIED & SPELL_CAST_SUCCESS & SPELL_AURA_REMOVED & SPELL_ABSORBED
+  - 18610: true # Heavy Runecloth Bandage (i 14530) = SPELL_AURA_APPLIED & SPELL_CAST_SUCCESS & SPELL_AURA_REMOVED & SPELL_PERIODIC_HEAL & SPELL_MISSED
+  - 17544: true # Greater Frost Protection Potion (i 13456) = SPELL_AURA_APPLIED & SPELL_CAST_SUCCESS & SPELL_AURA_REMOVED & SPELL_ABSORBED
+  - 24382: true # Spirit of Zanza (i 20079) = SPELL_AURA_APPLIED & SPELL_CAST_SUCCESS & SPELL_AURA_REMOVED
 tracked_buffs:
 #  - 18194: true # Nightfin Soup (i 13931) = SPELL_AURA_APPLIED & SPELL_AURA_REFRESH & SPELL_PERIODIC_ENERGIZE & SPELL_AURA_REMOVED
+  - 24382: true # Spirit of Zanza (i 20079)
+encounter_buffs:
+  - 22888: true # Rallying Cry of the Dragonslayer (ONY)
+  - 24425: true # Spirit of Zandalar (ZG)
+  - 16609: true # Warchief's Blessing (REND)
+  - 22817: true # Fengus' Ferocity (DMT)
+  - 22818: true # Mol'dar's Moxie (DMT)
+  - 22820: true # Slip'kik's Savvy (DMT)
+  - 15366: true # Songflower Serenade (SF)
+  - 23768: true # Sayge(s Dark Fortune of Damage (DMF)
+  - 23769: true # Sayge's Dark Fortune of Resistance (DMF)
+
 tracked_items:
+  - 22652: true # Glacial Vest
+  - 22654: true # Glacial Gloves
+  - 22655: true # Glacial Wrists
+  - 22658: true # Glacial Cloak
+  - 22700: true # Glacial Leggings
+  - 23032: true # Glacial Headdress
+  - 23020: true # Polar Helmet
+  - 22941: true # Polar Shoulder Pads
+  - 22661: true # Polar Tunic
+  - 22701: true # Polar Leggings
+  - 22663: true # Polar Bracers
+  - 22662: true # Polar Gloves
+  - 23033: true # Icy Scale Coif
+  - 22967: true # Icy Scale Spaulders
+  - 22664: true # Icy Scale Breastplate
+  - 22702: true # Icy Scale Leggings
+  - 22665: true # Icy Scale Bracers
+  - 22666: true # Icy Scale Gauntlets
+  - 23019: true # Icebane Helmet
+  - 22940: true # Icebane Pauldrons
+  - 22669: true # Icebane Breastplate
+  - 22699: true # Icebane Leggings
+  - 22671: true # Icebane Bracers
+  - 22670: true # Icebane Gauntlets
+
+enchants_check: true
+enchants_ignored:
+  - 15: true # +8 armor (i 2304)
+  - 16: true # +16 armor (i 2313)
+  - 17: true # +24 armor (i 4265)
+  - 18: true # +32 armor (i 8173)
+  - 1843: true # +40 armor (i 15564)
+enchants_ignored_encounters:
+  - 1119: true

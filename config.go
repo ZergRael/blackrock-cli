@@ -1,11 +1,9 @@
 package main
 
 import (
-	"fmt"
 	"github.com/rs/zerolog/log"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-
 )
 
 // Create private data struct to hold config options.
@@ -13,7 +11,12 @@ type config struct {
 	Path string `mapstructure:"path"`
 	TrackedCasts map[string]bool `mapstructure:"tracked_casts"`
 	TrackedBuffs map[string]bool `mapstructure:"tracked_buffs"`
+	EncounterBuffs map[string]bool `mapstructure:"encounter_buffs"`
 	TrackedItems map[string]bool `mapstructure:"tracked_items"`
+
+	CheckEnchants bool `mapstructure:"enchants_check"`
+	IgnoredEnchants map[string]bool `mapstructure:"enchants_ignored"`
+	IgnoredEncountersEnchants map[string]bool `mapstructure:"enchants_ignored_encounters"`
 }
 
 // Create a new config instance.
@@ -52,7 +55,7 @@ func getConf() *config {
 	conf := &config{}
 	err := viper.Unmarshal(conf)
 	if err != nil {
-		fmt.Printf("unable to decode into config struct, %v", err)
+		log.Error().Err(err).Msg("unable to decode into config struct")
 	}
 
 	return conf
