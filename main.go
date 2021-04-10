@@ -20,7 +20,7 @@ func main() {
 	}
 }
 
-func run(cmd *cobra.Command, args []string) {
+func run(_ *cobra.Command, _ []string) {
 	log.Info().Str("Path", conf.Path).Msg("Reading file")
 	log.Info().Interface("TrackedCasts", conf.TrackedCasts).Msg("Tracking casts spellIds")
 	log.Info().Interface("TrackedBuffs", conf.TrackedBuffs).Msg("Tracking auras spellIds")
@@ -45,14 +45,19 @@ func run(cmd *cobra.Command, args []string) {
 		//Interface("events", parsed.EventsCount).
 		//Interface("encounters", parsed.Encounters).
 		//Interface("guidMap", parsed.GuidMap).
-		//Interface("buffs", parsed.Buffs).
-		//Interface("casts", parsed.Casts).
+		//Interface("buffs", parsed.WorldBuffs).
+		Interface("casts", parsed.Casts).
 		Msg("Dump ParseResults")
 
 	analysis := analyze(parsed)
 
 	log.Debug().
-		Interface("analysis", analysis).
+		//Interface("analysis", analysis).
+		//Interface("missing-items", analysis.MissingItems).
+		//Interface("missing-enchants", analysis.MissingEnchants).
+		//Interface("world-buffs", analysis.WorldBuffs).
+		Interface("items", analysis.ItemsReport).
+		//Interface("consumables", analysis.Consumables).
 		Msg("Dump AnalysisResults")
 
 	if err := scanner.Err(); err != nil {

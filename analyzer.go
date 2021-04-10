@@ -24,7 +24,7 @@ var itemIndexToSlot = [...]string{
 	"tabard",
 }
 
-var enchantableIndexes = [...]bool {
+var enchantableIndexes = [...]bool{
 	true,
 	false,
 	true,
@@ -46,35 +46,39 @@ var enchantableIndexes = [...]bool {
 	false,
 }
 
-type AnalysysResults struct {
-	PreRaidBuffs map[string][]string
+type AnalysisResults struct {
+	Consumables     map[string]map[string]int
+	WorldBuffs      map[string][]string
+	ItemsReport     map[string]map[string]int
 	MissingEnchants map[string][]string
-	MissingItems map[string][]string
+	MissingItems    map[string][]string
 }
 
-func analyze(p *ParseResults) *AnalysysResults {
-	a := &AnalysysResults{}
+func analyze(p *ParseResults) *AnalysisResults {
+	a := &AnalysisResults{}
 
-	log.Debug().Msg("Checking missing buffs")
-	preRaidBuffs := make(map[string][]string)
+	if conf.WorldBuffs != nil {
+		log.Debug().Msg("Checking encounters buffs")
+		worldBuffs := make(map[string][]string)
 
-	// Only check first encounter for each player
-	for _, e := range p.Encounters {
-		for _, p := range e.Players {
-			if preRaidBuffs[p.Name] != nil {
-				continue
-			}
+		// Only check first encounter for each player
+		for _, e := range p.Encounters {
+			for _, p := range e.Players {
+				if worldBuffs[p.Name] != nil {
+					continue
+				}
 
-			preRaidBuffs[p.Name] = make([]string, 0)
-			for _, s := range p.Buffs {
-				if conf.EncounterBuffs[s] {
-					preRaidBuffs[p.Name] = append(preRaidBuffs[p.Name], s)
+				worldBuffs[p.Name] = make([]string, 0)
+				for _, s := range p.WorldBuffs {
+					if conf.WorldBuffs[s] {
+						worldBuffs[p.Name] = append(worldBuffs[p.Name], s)
+					}
 				}
 			}
 		}
-	}
 
-	a.PreRaidBuffs = preRaidBuffs
+		a.WorldBuffs = worldBuffs
+	}
 
 	log.Debug().Msg("Checking missing items")
 	missingItems := make(map[string][]string)
@@ -104,7 +108,6 @@ func analyze(p *ParseResults) *AnalysysResults {
 		// Only check first encounter for each player
 		for _, e := range p.Encounters {
 			if conf.IgnoredEncountersEnchants[e.ID] {
-				log.Debug().Str("encounterId", e.ID).Msg("Ignore encounter")
 				continue
 			}
 
@@ -116,7 +119,7 @@ func analyze(p *ParseResults) *AnalysysResults {
 				missingEnchants[p.Name] = make([]string, 0)
 				// Check every item for a permanent enchant
 				for idx, i := range p.Items {
-					if i.ID != "0" && enchantableIndexes[idx] && (len(i.Enchants) == 0 || i.Enchants[0] == "0" || conf.IgnoredEnchants[i.Enchants[0]]){
+					if i.ID != "0" && enchantableIndexes[idx] && (len(i.Enchants) == 0 || i.Enchants[0] == "0" || conf.IgnoredEnchants[i.Enchants[0]]) {
 						missingEnchants[p.Name] = append(missingEnchants[p.Name], itemIndexToSlot[idx])
 					}
 				}
@@ -124,6 +127,53 @@ func analyze(p *ParseResults) *AnalysysResults {
 		}
 
 		a.MissingEnchants = missingEnchants
+	}
+
+	if conf.TrackedItems != nil {
+		log.Debug().Msg("Checking tracked items")
+		trackedItems := make(map[string]map[string]int)
+
+		trackedItemsList := make(map[string]map[string]bool)
+
+		for _, e := range p.Encounters {
+			for _, p := range e.Players {
+				if trackedItemsList[p.Name] == nil {
+					trackedItemsList[p.Name] = make(map[string]bool)
+				}
+
+				for _, i := range p.Items {
+					if conf.TrackedItems[i.ID] != "" {
+						trackedItemsList[p.Name][i.ID] = true
+					}
+				}
+			}
+		}
+
+		for name, items := range trackedItemsList {
+			trackedItems[name] = make(map[string]int)
+			for id := range items {
+				rarity := conf.TrackedItems[id]
+				trackedItems[name][rarity]++
+			}
+		}
+
+		a.ItemsReport = trackedItems
+	}
+
+	if p.Casts != nil {
+		log.Debug().Msg("Checking consummables")
+		consumables := make(map[string]map[string]int)
+
+		for name, casts := range p.Casts {
+			for spellId, count := range casts {
+				if consumables[spellId] == nil {
+					consumables[spellId] = make(map[string]int)
+				}
+				consumables[spellId][name] = count
+			}
+		}
+
+		a.Consumables = consumables
 	}
 
 	return a

@@ -8,24 +8,25 @@ import (
 
 // Create private data struct to hold config options.
 type config struct {
-	Path string `mapstructure:"path"`
-	TrackedCasts map[string]bool `mapstructure:"tracked_casts"`
-	TrackedBuffs map[string]bool `mapstructure:"tracked_buffs"`
-	EncounterBuffs map[string]bool `mapstructure:"encounter_buffs"`
-	TrackedItems map[string]bool `mapstructure:"tracked_items"`
+	Path                  string            `mapstructure:"path"`
+	TrackedCasts          map[string]bool   `mapstructure:"tracked_casts"`
+	TrackedBuffs          map[string]bool   `mapstructure:"tracked_buffs"`
+	TrackedEncounterBuffs map[string]bool   `mapstructure:"tracked_buffs_by_encounter"`
+	TrackedItems          map[string]string `mapstructure:"tracked_items"`
+	WorldBuffs            map[string]bool   `mapstructure:"world_buffs"`
 
-	CheckEnchants bool `mapstructure:"enchants_check"`
-	IgnoredEnchants map[string]bool `mapstructure:"enchants_ignored"`
+	CheckEnchants             bool            `mapstructure:"enchants_check"`
+	IgnoredEnchants           map[string]bool `mapstructure:"enchants_ignored"`
 	IgnoredEncountersEnchants map[string]bool `mapstructure:"enchants_ignored_encounters"`
 }
 
 // Create a new config instance.
 var (
-	conf *config
+	conf    *config
 	rootCmd = &cobra.Command{
 		Use:   "blackrock",
 		Short: "WoWCombatLog.txt local analyzer",
-		Run: run,
+		Run:   run,
 		PreRun: func(cmd *cobra.Command, args []string) {
 			conf = getConf()
 		},
