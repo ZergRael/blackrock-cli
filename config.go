@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/rs/zerolog/log"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
@@ -9,7 +10,10 @@ import (
 
 // Create private data struct to hold config options.
 type config struct {
-	Path string `yaml:"path"`
+	Path string `mapstructure:"path"`
+	TrackedCasts map[string]bool `mapstructure:"tracked_casts"`
+	TrackedBuffs map[string]bool `mapstructure:"tracked_buffs"`
+	TrackedItems map[string]bool `mapstructure:"tracked_items"`
 }
 
 // Create a new config instance.
@@ -28,14 +32,20 @@ var (
 func initConfig() {
 	viper.AddConfigPath(".")
 	viper.SetConfigName("config")
-	viper.ReadInConfig()
+	err := viper.ReadInConfig()
+	if err != nil {
+		log.Error().Err(err).Msg("Failed to parse config")
+	}
 }
 
 func setupCobra(cmd *cobra.Command) {
 	cobra.OnInitialize(initConfig)
 
 	cmd.PersistentFlags().String("path", "C:\\Program Files (x86)\\World of Warcraft\\_classic_\\Logs\\WoWCombatLog.txt", "Path to WoWCombatLog.txt")
-	viper.BindPFlag("path", cmd.PersistentFlags().Lookup("path"))
+	err := viper.BindPFlag("path", cmd.PersistentFlags().Lookup("path"))
+	if err != nil {
+		log.Error().Err(err).Msg("Failed to parse flags")
+	}
 }
 
 func getConf() *config {
