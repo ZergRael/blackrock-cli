@@ -22,11 +22,11 @@ func main() {
 
 func run(_ *cobra.Command, _ []string) {
 	log.Info().Str("Path", conf.Path).Msg("Reading file")
-	log.Info().Interface("TrackedCasts", conf.TrackedCasts).Msg("Tracking casts spellIds")
-	log.Info().Interface("TrackedBuffs", conf.TrackedBuffs).Msg("Tracking auras spellIds")
-	log.Info().Interface("TrackedItems", conf.TrackedItems).Msg("Tracking equipped itemIds")
-	log.Info().Interface("IgnoredEnchants", conf.IgnoredEnchants).Msg("Ignored enchantIds")
-	log.Info().Interface("IgnoredEncountersEnchants", conf.IgnoredEncountersEnchants).Msg("Ignored enchants on encounterIds")
+	log.Debug().Interface("TrackedCasts", conf.TrackedCasts).Msg("Tracking casts spellIds")
+	log.Debug().Interface("TrackedBuffs", conf.TrackedBuffs).Msg("Tracking auras spellIds")
+	log.Debug().Interface("TrackedItems", conf.TrackedItems).Msg("Tracking equipped itemIds")
+	log.Debug().Interface("IgnoredEnchants", conf.IgnoredEnchants).Msg("Ignored enchantIds")
+	log.Debug().Interface("IgnoredEncountersEnchants", conf.IgnoredEncountersEnchants).Msg("Ignored enchants on encounterIds")
 
 	file, err := os.Open(conf.Path)
 	if err != nil {
@@ -38,25 +38,26 @@ func run(_ *cobra.Command, _ []string) {
 	scanner := bufio.NewScanner(file)
 
 	parsed := parse(scanner)
-	log.Info().Int("lines", parsed.LinesCount).Msg("Finished reading")
+	log.Info().Int("lines", parsed.LinesCount).Msg("Read end")
 
 	log.Debug().
 		//Interface("parsed", parsed).
-		//Interface("events", parsed.EventsCount).
+		Interface("events", parsed.EventsCount).
 		//Interface("encounters", parsed.Encounters).
 		//Interface("guidMap", parsed.GuidMap).
 		//Interface("buffs", parsed.WorldBuffs).
-		Interface("casts", parsed.Casts).
+		//Interface("casts", parsed.Casts).
 		Msg("Dump ParseResults")
 
 	analysis := analyze(parsed)
+	log.Info().Int("lines", parsed.LinesCount).Msg("Analysis end")
 
 	log.Debug().
-		//Interface("analysis", analysis).
+		Interface("analysis", analysis).
 		//Interface("missing-items", analysis.MissingItems).
 		//Interface("missing-enchants", analysis.MissingEnchants).
 		//Interface("world-buffs", analysis.WorldBuffs).
-		Interface("items", analysis.ItemsReport).
+		//Interface("items", analysis.ItemsReport).
 		//Interface("consumables", analysis.Consumables).
 		Msg("Dump AnalysisResults")
 
