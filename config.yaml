@@ -1,15 +1,22 @@
 tracked_casts:
   - 17540: true # Greater Stoneshield (i 13455) = SPELL_AURA_APPLIED & SPELL_CAST_SUCCESS & SPELL_AURA_REMOVED
+  - 17626: true # Flask of the Titans
   - 11405: true # Elixir of the Giants (i 9206) = SPELL_AURA_APPLIED & SPELL_CAST_SUCCESS & SPELL_AURA_REMOVED
+  - 17528: true # Mighty Rage Potion
   - 17538: true # Elixir of the Mongoose (i 13452) = SPELL_AURA_APPLIED & SPELL_CAST_SUCCESS & SPELL_AURA_REMOVED
   - 11334: true # Elixir of Greater Agility (i 9187) = SPELL_AURA_APPLIED & SPELL_CAST_SUCCESS & SPELL_AURA_REMOVED
   - 17038: true # Winterfall Firewater (i 12820) = SPELL_AURA_APPLIED & SPELL_CAST_SUCCESS & SPELL_AURA_REMOVED
+  - 22756: true # Elemental Sharpening Stone
+  - 28891: true # Consecrated Sharpening Stone
+  - 17628: true # Flask of Supreme Power
   - 26276: true # Elixir of Greater Firepower (i 21546) = SPELL_AURA_APPLIED & SPELL_CAST_SUCCESS & SPELL_AURA_REMOVED
   - 11474: true # Elixir of Shadow Power (i 9264) = SPELL_AURA_APPLIED & SPELL_CAST_SUCCESS & SPELL_AURA_REMOVED
   - 17539: true # Greater Arcane Elixir (i 13454) = SPELL_AURA_APPLIED & SPELL_CAST_SUCCESS & SPELL_AURA_REMOVED
   - 11390: true # Arcane Elixir (i 9155) = SPELL_AURA_APPLIED & SPELL_CAST_SUCCESS & SPELL_AURA_REMOVED
   - 25122: true # Brilliant Wizard Oil (i 20749) = SPELL_CAST_START & SPELL_CAST_SUCCESS
-  - 24363: true # Mageblood potion (i 20007) = DOES NOT WORK
+  - 28898: true # Blessed Wizard Oil
+#  - 24363: true # Mageblood potion (i 20007) = DOES NOT WORK
+  - 17627: true # Flask of Distilled Wisdom
   - 25123: true # Brilliant Mana Oil (i 20748) = SPELL_CAST_START & SPELL_CAST_SUCCESS
   - 24382: true # Spirit of Zanza (i 20079) = SPELL_AURA_APPLIED & SPELL_CAST_SUCCESS & SPELL_AURA_REMOVED
 tracked_buffs:
