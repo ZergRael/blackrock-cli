@@ -5,6 +5,7 @@ import (
 	"github.com/rs/zerolog/log"
 	"regexp"
 	"strings"
+	"time"
 )
 
 var combatantInfoRegex = regexp.MustCompile(`(.*),(\d+),(\d+),(\d+),(\d+),(\d+),0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,(\d+),0,\(\),\(0,0,0,0\),\[],\[(.*)],\[(.*)]`)
@@ -24,9 +25,12 @@ type ParseResults struct {
 }
 
 type Encounter struct {
-	Name    string
-	ID      string
-	Players map[string]*EncounterPlayer
+	Name     string
+	ID       string
+	Start    time.Time
+	End      time.Time
+	Duration time.Duration
+	Players  map[string]*EncounterPlayer
 }
 
 type EncounterPlayer struct {
@@ -65,7 +69,8 @@ func parse(scanner *bufio.Scanner) *ParseResults {
 
 func parseLine(line string, p *ParseResults) {
 	s1 := strings.Split(line, "  ")
-	//timestamp := s1[0]
+	t, _ := time.Parse("1/2 15:04:05.999", s1[0])
+	t = t.AddDate(time.Now().Year(), 0, 0)
 	s2 := strings.SplitN(s1[1], ",", 2)
 	event := s2[0]
 
@@ -132,6 +137,8 @@ func parseLine(line string, p *ParseResults) {
 		if currentEncounter == nil {
 			log.Error().Msg("ENCOUNTER_END without ENCOUNTER_START")
 		} else {
+			currentEncounter.End = t
+			currentEncounter.Duration = t.Sub(currentEncounter.Start) / time.Millisecond
 			p.Encounters = append(p.Encounters, *currentEncounter)
 		}
 		currentEncounter = nil
@@ -142,6 +149,7 @@ func parseLine(line string, p *ParseResults) {
 		//diff := data[2]
 		//playerCount := data[3]
 		currentEncounter = &Encounter{
+			Start:   t,
 			ID:      encounterId,
 			Name:    name,
 			Players: make(map[string]*EncounterPlayer),
