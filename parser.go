@@ -70,6 +70,7 @@ func parseLine(line string, p *ParseResults) {
 	event := s2[0]
 
 	switch event {
+	//case "COMBAT_LOG_VERSION":
 	case "COMBATANT_INFO":
 		parsedData := combatantInfoRegex.FindStringSubmatch(s2[1])
 		guid := parsedData[1]
@@ -119,6 +120,40 @@ func parseLine(line string, p *ParseResults) {
 
 		player.WorldBuffs = auras
 		currentEncounter.Players[playerName] = player
+	//case "DAMAGE_SHIELD":
+	//case "DAMAGE_SHIELD_MISSED":
+	//case "DAMAGE_SPLIT":
+	//case "ENCHANT_APPLIED":
+	//case "ENCHANT_REMOVED":
+	case "ENCOUNTER_END":
+		//data := strings.Split(s2[1], ",")
+		//encounterId := data[0]
+		//name := data[1]
+		if currentEncounter == nil {
+			log.Error().Msg("ENCOUNTER_END without ENCOUNTER_START")
+		} else {
+			p.Encounters = append(p.Encounters, *currentEncounter)
+		}
+		currentEncounter = nil
+	case "ENCOUNTER_START":
+		data := strings.Split(s2[1], ",")
+		encounterId := data[0]
+		name := strings.Trim(data[1], "\"")
+		//diff := data[2]
+		//playerCount := data[3]
+		currentEncounter = &Encounter{
+			ID:      encounterId,
+			Name:    name,
+			Players: make(map[string]*EncounterPlayer),
+		}
+		//if p.WorldBuffs[name] == nil {
+		//	p.WorldBuffs[name] = make(map[string]int)
+		//}
+	//case "ENVIRONMENTAL_DAMAGE":
+	//case "PARTY_KILL":
+	//case "RANGE_DAMAGE":
+	//case "RANGE_MISSED":
+	//case "SPELL_ABSORBED":
 	case "SPELL_AURA_APPLIED":
 		data := strings.Split(s2[1], ",")
 		guid := data[0]
@@ -140,6 +175,9 @@ func parseLine(line string, p *ParseResults) {
 		if guid != nilGuid && name != nilName && p.GuidMap[guid] == "" {
 			p.GuidMap[guid] = name
 		}
+	//case "SPELL_AURA_APPLIED_DOSE":
+	//case "SPELL_AURA_BROKEN":
+	//case "SPELL_AURA_BROKEN_SPELL":
 	case "SPELL_AURA_REFRESH":
 		data := strings.Split(s2[1], ",")
 		//guid := data[0]
@@ -173,17 +211,9 @@ func parseLine(line string, p *ParseResults) {
 				currentEncounter.Players[name].Consumables = append(currentEncounter.Players[name].Consumables, spellId)
 			}
 		}
-
-	case "SPELL_PERIODIC_ENERGIZE":
-		//data := strings.Split(s2[1], ",")
-		//guid := data[0]
-		//name := data[1]
-		//flags := data[2]
-		//raidFlags := data[3]
-		//targetGuid := data[4]
-		//targetName := data[5]
-		//targetFlags := data[6]
-		//targetRaidFlags := data[7]
+	//case "SPELL_AURA_REMOVED_DOSE":
+	//case "SPELL_CAST_FAILED":
+	//case "SPELL_CAST_START":
 	case "SPELL_CAST_SUCCESS":
 		data := strings.Split(s2[1], ",")
 		//guid := data[0]
@@ -201,30 +231,36 @@ func parseLine(line string, p *ParseResults) {
 			}
 			p.Casts[name][spellId]++
 		}
-	case "ENCOUNTER_START":
-		data := strings.Split(s2[1], ",")
-		encounterId := data[0]
-		name := strings.Trim(data[1], "\"")
-		//diff := data[2]
-		//playerCount := data[3]
-		currentEncounter = &Encounter{
-			ID:      encounterId,
-			Name:    name,
-			Players: make(map[string]*EncounterPlayer),
-		}
-		//if p.WorldBuffs[name] == nil {
-		//	p.WorldBuffs[name] = make(map[string]int)
-		//}
-	case "ENCOUNTER_END":
-		//data := strings.Split(s2[1], ",")
-		//encounterId := data[0]
-		//name := data[1]
-		if currentEncounter == nil {
-			log.Error().Msg("ENCOUNTER_END without ENCOUNTER_START")
-		} else {
-			p.Encounters = append(p.Encounters, *currentEncounter)
-		}
-		currentEncounter = nil
+		//case "SPELL_CREATE":
+		//case "SPELL_DAMAGE":
+		//case "SPELL_DISPEL":
+		//case "SPELL_DISPEL_FAILED":
+		//case "SPELL_DRAIN":
+		//case "SPELL_ENERGIZE":
+		//case "SPELL_EXTRA_ATTACKS":
+		//case "SPELL_HEAL":
+		//case "SPELL_INSTAKILL":
+		//case "SPELL_INTERRUPT":
+		//case "SPELL_MISSED":
+		//case "SPELL_PERIODIC_DAMAGE":
+		//case "SPELL_PERIODIC_ENERGIZE":
+		//	data := strings.Split(s2[1], ",")
+		//	guid := data[0]
+		//	name := data[1]
+		//	flags := data[2]
+		//	raidFlags := data[3]
+		//	targetGuid := data[4]
+		//	targetName := data[5]
+		//	targetFlags := data[6]
+		//	targetRaidFlags := data[7]
+		//case "SPELL_PERIODIC_HEAL":
+		//case "SPELL_PERIODIC_MISSED":
+		//case "SPELL_RESURRECT":
+		//case "SPELL_SUMMON":
+		//case "SWING_DAMAGE":
+		//case "SWING_DAMAGE_LANDED":
+		//case "SWING_MISSED":
+		//case "UNIT_DIED":
 	}
 
 	p.EventsCount[event]++
