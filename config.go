@@ -9,6 +9,7 @@ import (
 // Create private data struct to hold config options.
 type config struct {
 	Path                  string            `mapstructure:"path"`
+	Output                string            `mapstructure:"output"`
 	TrackedCasts          map[string]bool   `mapstructure:"tracked_casts"`
 	TrackedBuffs          map[string]bool   `mapstructure:"tracked_buffs"`
 	TrackedEncounterBuffs map[string]bool   `mapstructure:"tracked_buffs_by_encounter"`
@@ -46,7 +47,8 @@ func setupCobra(cmd *cobra.Command) {
 	cobra.OnInitialize(initConfig)
 
 	cmd.PersistentFlags().String("path", "C:\\Program Files (x86)\\World of Warcraft\\_classic_\\Logs\\WoWCombatLog.txt", "Path to WoWCombatLog.txt")
-	err := viper.BindPFlag("path", cmd.PersistentFlags().Lookup("path"))
+	cmd.PersistentFlags().String("output", "output.json", "Output path/filename")
+	err := viper.BindPFlags(cmd.PersistentFlags())
 	if err != nil {
 		log.Error().Err(err).Msg("Failed to parse flags")
 	}

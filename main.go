@@ -75,8 +75,7 @@ func run(_ *cobra.Command, _ []string) {
 		log.Fatal().Err(err).Msg("Failed to json encode results")
 	}
 
-	filename := "output.json"
-	err = os.WriteFile(filename, results, 0644)
+	err = os.WriteFile(conf.Output, results, 0644)
 	if err != nil {
 		log.Fatal().Err(err).Msg("Failed to write results file")
 	}
