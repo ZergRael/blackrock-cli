@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"encoding/json"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 	"github.com/spf13/cobra"
@@ -18,6 +19,11 @@ func main() {
 	if err != nil {
 		log.Error().Err(err).Msg("Failed to execute app")
 	}
+}
+
+type Results struct {
+	Parsed   *ParseResults
+	Analysis *AnalysisResults
 }
 
 func run(_ *cobra.Command, _ []string) {
@@ -39,10 +45,13 @@ func run(_ *cobra.Command, _ []string) {
 
 	parsed := parse(scanner)
 	log.Info().Int("lines", parsed.LinesCount).Msg("Read end")
+	if err := scanner.Err(); err != nil {
+		log.Fatal().Err(err).Msg("Error while reading file")
+	}
 
 	log.Debug().
 		//Interface("parsed", parsed).
-		Interface("events", parsed.EventsCount).
+		//Interface("events", parsed.EventsCount).
 		//Interface("encounters", parsed.Encounters).
 		//Interface("guidMap", parsed.GuidMap).
 		//Interface("buffs", parsed.WorldBuffs).
@@ -53,7 +62,7 @@ func run(_ *cobra.Command, _ []string) {
 	log.Info().Int("lines", parsed.LinesCount).Msg("Analysis end")
 
 	log.Debug().
-		Interface("analysis", analysis).
+		//Interface("analysis", analysis).
 		//Interface("missing-items", analysis.MissingItems).
 		//Interface("missing-enchants", analysis.MissingEnchants).
 		//Interface("world-buffs", analysis.WorldBuffs).
@@ -61,7 +70,14 @@ func run(_ *cobra.Command, _ []string) {
 		//Interface("consumables", analysis.Consumables).
 		Msg("Dump AnalysisResults")
 
-	if err := scanner.Err(); err != nil {
-		log.Fatal().Err(err).Msg("Error while reading file")
+	results, err := json.MarshalIndent(Results{Parsed: parsed, Analysis: analysis}, "", "  ")
+	if err != nil {
+		log.Fatal().Err(err).Msg("Failed to json encode results")
+	}
+
+	filename := "output.json"
+	err = os.WriteFile(filename, results, 0644)
+	if err != nil {
+		log.Fatal().Err(err).Msg("Failed to write results file")
 	}
 }
