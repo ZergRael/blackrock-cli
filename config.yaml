@@ -65,8 +65,11 @@ tracked_items:
 
 world_buffs:
   - 22888: true # Rallying Cry of the Dragonslayer (ONY)
+  - 355363: true # Rallying Cry of the Dragonslayer (ONY)
   - 24425: true # Spirit of Zandalar (ZG)
+  - 355365: true # Spirit of Zandalar (ZG)
   - 16609: true # Warchief's Blessing (REND)
+  - 355366: true # Warchief's Blessing (REND)
   - 22817: true # Fengus' Ferocity (DMT)
   - 22818: true # Mol'dar's Moxie (DMT)
   - 22820: true # Slip'kik's Savvy (DMT)
